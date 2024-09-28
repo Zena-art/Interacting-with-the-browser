@@ -30,3 +30,10 @@ if(!playerName){
   playerName = 'Player'; //default if no name is provided
 }
 window.alert(`Hello, ${playerName}! You have 10 tries to win. Good luck!`);
+
+//Ask the user for confirmation to start the game
+
+let isReady = window.confirm("Are you ready to play?");
+if(!isReady) {
+  window.alert("Come back when you're ready!");
+}
