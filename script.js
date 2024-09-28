@@ -37,3 +37,67 @@ let isReady = window.confirm("Are you ready to play?");
 if(!isReady) {
   window.alert("Come back when you're ready!");
 }
+
+//Function to build individual tiles
+function buildTile(color){
+const element = document.createElement('div');
+
+element.classList.add("tile");
+element.setAttribute("data-color", color);
+element.setAttribute("data-revealed", false);
+
+element.addEventListener("click", () => {
+  const revealed = element.getAttribute("data-revealed");
+
+  if(
+    awaitingEndOfMove || 
+    revealed === 'true' ||
+    element === activeTile ||
+    tries >= maxTries
+  ){
+    return;
+  }
+  // Reveal this color
+
+  element.style.backgroundColor = color;
+
+  if(!activeTile) {
+    activeTile = element;
+    return;
+  }
+
+  const colorToMatch = activeTile.getAttribute('data-color');
+
+  if(colorToMatch === color) {
+    element.setAttribute('data-revealed', 'true');
+    activeTile.setAttribute('data-revealed', 'true');
+
+    activeTile  = null;
+    awaitingEndOfMove = false;
+    revealedCount += 2;
+
+    if(revealedCount === tileCount) {
+      window.alert(
+        `Congratulations, ${playerName}! You've won! Refresh the page to play again.`
+      );
+    }
+    return;
+  }
+
+  // Increment the number of tries
+  tries++;
+  window.alert(`Incorrect match! You have ${maxTries - tries} tries left.`);
+  awaitingEndOfMove = true;
+
+  setTimeout(() => {
+    activeTile.style.backgroundColor = null;
+    element.style.backgroundColor = null;
+
+    awaitingEndOfMove = false;
+    activeTile = null;
+  })
+})
+
+
+}
+
