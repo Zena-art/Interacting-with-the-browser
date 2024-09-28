@@ -95,9 +95,29 @@ element.addEventListener("click", () => {
 
     awaitingEndOfMove = false;
     activeTile = null;
-  })
-})
+  }, 1000); // delaying 1 second
+  
+// check if the user has ran out of tries 
+if(tries >= maxTries) {
+  window.alert(
+    `Game over, ${playerName}! You've used all 10 tries. Refresh the page to try again.`
+  );
+}
+});
 
 
+return element;
+
+}
+
+// Build up tiles
+
+for(let i = 0; i < tileCount; i++){
+  const randomIndex = Math.floor(Math.random() * colorsPickList.length);
+  const color = colorsPickList[randomIndex];
+  const tile = buildTile(color);
+
+  colorsPickList.splice(randomIndex, 1);
+  tilesContainer.appendChild(tile);
 }
 
